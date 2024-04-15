@@ -1,0 +1,714 @@
+/*********************************************************************************
+ * Author:               Abdullah R.Hebashi
+ * Creation Data:        05 Jun, 2023
+ * Version:              v1.0
+ * Compiler:			 GNU ARM-GCC
+ * Controller:			 STM32F401CCU6
+ * Layer:				 MCAL
+*********************************************************************************/
+/*********************************************************************************
+ * Version      Date              Author                        Description
+ * v1.0         05 Jun, 2023      Abdullah R.Hebashi            Initial Creation 
+*********************************************************************************/
+
+
+#ifndef MCAL_DMA_DMA_PRIVATE_H
+#define MCAL_DMA_DMA_PRIVATE_H
+
+
+#define MASK_1_BIT      0b1
+#define MASK_2_BIT      0b11
+#define MASK_3_BIT      0b111
+
+
+/**************************** Register Description ******************************/
+
+
+typedef struct 
+{
+    volatile u32 SCR;
+    volatile u32 SNDTR;
+    volatile u32 SPAR;
+    volatile u32 SM0AR;
+    volatile u32 SM1AR;
+    volatile u32 SFCR;
+}DMA_STREAM_t;
+
+typedef struct 
+{
+    volatile u32 LISR;
+    volatile u32 HISR;
+    volatile u32 LIFCR;
+    volatile u32 HIFCR;
+    DMA_STREAM_t STREAM[8];
+}DMA_t;
+
+#define DMA1_BASE_ADDRESS     0x40026000
+#define DMA2_BASE_ADDRESS     0x40026400
+
+#define DMA1     ((volatile DMA_t *)DMA1_BASE_ADDRESS)
+#define DMA2     ((volatile DMA_t *)DMA2_BASE_ADDRESS)
+
+
+#define LISR_FEIF0		0
+#define LISR_DMEIF0		2
+#define LISR_TEIF0		3
+#define LISR_HTIF0		4
+#define LISR_TCIF0		5
+#define LISR_FEIF1		6
+#define LISR_DMEIF1		8
+#define LISR_TEIF1		9
+#define LISR_HTIF1		10
+#define LISR_TCIF1		11
+#define LISR_FEIF2		16
+#define LISR_DMEIF2		18
+#define LISR_TEIF2		19
+#define LISR_HTIF2		20
+#define LISR_TCIF2		21
+#define LISR_FEIF3		22
+#define LISR_DMEIF3		24
+#define LISR_TEIF3		25
+#define LISR_HTIF3		26
+#define LISR_TCIF3		27
+
+#define HISR_FEIF4		0
+#define HISR_DMEIF4		2
+#define HISR_TEIF4		3
+#define HISR_HTIF4		4
+#define HISR_TCIF4		5
+#define HISR_FEIF5		6
+#define HISR_DMEIF5		8
+#define HISR_TEIF5		9
+#define HISR_HTIF5		10
+#define HISR_TCIF5		11
+#define HISR_FEIF6		16
+#define HISR_DMEIF6		18
+#define HISR_TEIF6		19
+#define HISR_HTIF6		20
+#define HISR_TCIF6		21
+#define HISR_FEIF7		22
+#define HISR_DMEIF7		24
+#define HISR_TEIF7		25
+#define HISR_HTIF7		26
+#define HISR_TCIF7		27
+
+#define LIFCR_CFEIF0	0
+#define LIFCR_CDMEIF0	2
+#define LIFCR_CTEIF0	3
+#define LIFCR_CHTIF0	4
+#define LIFCR_CTCIF0	5
+#define LIFCR_CFEIF1	6
+#define LIFCR_CDMEIF1	8
+#define LIFCR_CTEIF1	9
+#define LIFCR_CHTIF1	10
+#define LIFCR_CTCIF1	11
+#define LIFCR_CFEIF2	16
+#define LIFCR_CDMEIF2	18
+#define LIFCR_CTEIF2	19
+#define LIFCR_CHTIF2	20
+#define LIFCR_CTCIF2	21
+#define LIFCR_CFEIF3	22
+#define LIFCR_CDMEIF3	24
+#define LIFCR_CTEIF3	25
+#define LIFCR_CHTIF3	26
+#define LIFCR_CTCIF3	27
+
+#define HIFCR_CFEIF4	0
+#define HIFCR_CDMEIF4	2
+#define HIFCR_CTEIF4	3
+#define HIFCR_CHTIF4	4
+#define HIFCR_CTCIF4	5
+#define HIFCR_CFEIF5	6
+#define HIFCR_CDMEIF5	8
+#define HIFCR_CTEIF5	9
+#define HIFCR_CHTIF5	10
+#define HIFCR_CTCIF5	11
+#define HIFCR_CFEIF6	16
+#define HIFCR_CDMEIF6	18
+#define HIFCR_CTEIF6	19
+#define HIFCR_CHTIF6	20
+#define HIFCR_CTCIF6	21
+#define HIFCR_CFEIF7	22
+#define HIFCR_CDMEIF7	24
+#define HIFCR_CTEIF7	25
+#define HIFCR_CHTIF7	26
+#define HIFCR_CTCIF7	27
+
+#define SXCR_EN			0
+#define SXCR_DMEIE		1
+#define SXCR_TEIE		2
+#define SXCR_HTIE		3
+#define SXCR_TCIE		4
+#define SXCR_PFCTRL		5
+#define SXCR_DIR		6
+#define SXCR_DIR0		6
+#define SXCR_DIR1		7
+#define SXCR_CIRC		8
+#define SXCR_PINC		9
+#define SXCR_MINC		10
+#define SXCR_PSIZE		11
+#define SXCR_PSIZE0		11
+#define SXCR_PSIZE1		12
+#define SXCR_MSIZE		13
+#define SXCR_MSIZE0		13
+#define SXCR_MSIZE1		14
+#define SXCR_PINCOS		15
+#define SXCR_PL			16
+#define SXCR_PL0		16
+#define SXCR_PL1		17
+#define SXCR_DBM		18
+#define SXCR_CT			19
+#define SXCR_PBURST		21
+#define SXCR_PBURST0	21
+#define SXCR_PBURST1	22
+#define SXCR_MBURST		23
+#define SXCR_MBURST0	23
+#define SXCR_MBURST1	24
+#define SXCR_CHSEL		25
+#define SXCR_CHSEL0		25
+#define SXCR_CHSEL1		26
+#define SXCR_CHSEL2		27
+
+#define S0CR_EN			0
+#define S0CR_DMEIE		1
+#define S0CR_TEIE		2
+#define S0CR_HTIE		3
+#define S0CR_TCIE		4
+#define S0CR_PFCTRL		5
+#define S0CR_DIR		6
+#define S0CR_DIR0		6
+#define S0CR_DIR1		7
+#define S0CR_CIRC		8
+#define S0CR_PINC		9
+#define S0CR_MINC		10
+#define S0CR_PSIZE		11
+#define S0CR_PSIZE0		11
+#define S0CR_PSIZE1		12
+#define S0CR_MSIZE		13
+#define S0CR_MSIZE0		13
+#define S0CR_MSIZE1		14
+#define S0CR_PINCOS		15
+#define S0CR_PL			16
+#define S0CR_PL0		16
+#define S0CR_PL1		17
+#define S0CR_DBM		18
+#define S0CR_CT			19
+#define S0CR_PBURST		21
+#define S0CR_PBURST0	21
+#define S0CR_PBURST1	22
+#define S0CR_MBURST		23
+#define S0CR_MBURST0	23
+#define S0CR_MBURST1	24
+#define S0CR_CHSEL		25
+#define S0CR_CHSEL0		25
+#define S0CR_CHSEL1		26
+#define S0CR_CHSEL2		27
+
+#define S1CR_EN			0
+#define S1CR_DMEIE		1
+#define S1CR_TEIE		2
+#define S1CR_HTIE		3
+#define S1CR_TCIE		4
+#define S1CR_PFCTRL		5
+#define S1CR_DIR		6
+#define S1CR_DIR0		6
+#define S1CR_DIR1		7
+#define S1CR_CIRC		8
+#define S1CR_PINC		9
+#define S1CR_MINC		10
+#define S1CR_PSIZE		11
+#define S1CR_PSIZE0		11
+#define S1CR_PSIZE1		12
+#define S1CR_MSIZE		13
+#define S1CR_MSIZE0		13
+#define S1CR_MSIZE1		14
+#define S1CR_PINCOS		15
+#define S1CR_PL			16
+#define S1CR_PL0		16
+#define S1CR_PL1		17
+#define S1CR_DBM		18
+#define S1CR_CT			19
+#define S1CR_PBURST		21
+#define S1CR_PBURST0	21
+#define S1CR_PBURST1	22
+#define S1CR_MBURST		23
+#define S1CR_MBURST0	23
+#define S1CR_MBURST1	24
+#define S1CR_CHSEL		25
+#define S1CR_CHSEL0		25
+#define S1CR_CHSEL1		26
+#define S1CR_CHSEL2		27
+
+#define S2CR_EN			0
+#define S2CR_DMEIE		1
+#define S2CR_TEIE		2
+#define S2CR_HTIE		3
+#define S2CR_TCIE		4
+#define S2CR_PFCTRL		5
+#define S2CR_DIR		6
+#define S2CR_DIR0		6
+#define S2CR_DIR1		7
+#define S2CR_CIRC		8
+#define S2CR_PINC		9
+#define S2CR_MINC		10
+#define S2CR_PSIZE		11
+#define S2CR_PSIZE0		11
+#define S2CR_PSIZE1		12
+#define S2CR_MSIZE		13
+#define S2CR_MSIZE0		13
+#define S2CR_MSIZE1		14
+#define S2CR_PINCOS		15
+#define S2CR_PL			16
+#define S2CR_PL0		16
+#define S2CR_PL1		17
+#define S2CR_DBM		18
+#define S2CR_CT			19
+#define S2CR_PBURST		21
+#define S2CR_PBURST0	21
+#define S2CR_PBURST1	22
+#define S2CR_MBURST		23
+#define S2CR_MBURST0	23
+#define S2CR_MBURST1	24
+#define S2CR_CHSEL		25
+#define S2CR_CHSEL0		25
+#define S2CR_CHSEL1		26
+#define S2CR_CHSEL2		27
+
+#define S3CR_EN			0
+#define S3CR_DMEIE		1
+#define S3CR_TEIE		2
+#define S3CR_HTIE		3
+#define S3CR_TCIE		4
+#define S3CR_PFCTRL		5
+#define S3CR_DIR		6
+#define S3CR_DIR0		6
+#define S3CR_DIR1		7
+#define S3CR_CIRC		8
+#define S3CR_PINC		9
+#define S3CR_MINC		10
+#define S3CR_PSIZE		11
+#define S3CR_PSIZE0		11
+#define S3CR_PSIZE1		12
+#define S3CR_MSIZE		13
+#define S3CR_MSIZE0		13
+#define S3CR_MSIZE1		14
+#define S3CR_PINCOS		15
+#define S3CR_PL			16
+#define S3CR_PL0		16
+#define S3CR_PL1		17
+#define S3CR_DBM		18
+#define S3CR_CT			19
+#define S3CR_PBURST		21
+#define S3CR_PBURST0	21
+#define S3CR_PBURST1	22
+#define S3CR_MBURST		23
+#define S3CR_MBURST0	23
+#define S3CR_MBURST1	24
+#define S3CR_CHSEL		25
+#define S3CR_CHSEL0		25
+#define S3CR_CHSEL1		26
+#define S3CR_CHSEL2		27
+
+#define S4CR_EN			0
+#define S4CR_DMEIE		1
+#define S4CR_TEIE		2
+#define S4CR_HTIE		3
+#define S4CR_TCIE		4
+#define S4CR_PFCTRL		5
+#define S4CR_DIR		6
+#define S4CR_DIR0		6
+#define S4CR_DIR1		7
+#define S4CR_CIRC		8
+#define S4CR_PINC		9
+#define S4CR_MINC		10
+#define S4CR_PSIZE		11
+#define S4CR_PSIZE0		11
+#define S4CR_PSIZE1		12
+#define S4CR_MSIZE		13
+#define S4CR_MSIZE0		13
+#define S4CR_MSIZE1		14
+#define S4CR_PINCOS		15
+#define S4CR_PL			16
+#define S4CR_PL0		16
+#define S4CR_PL1		17
+#define S4CR_DBM		18
+#define S4CR_CT			19
+#define S4CR_PBURST		21
+#define S4CR_PBURST0	21
+#define S4CR_PBURST1	22
+#define S4CR_MBURST		23
+#define S4CR_MBURST0	23
+#define S4CR_MBURST1	24
+#define S4CR_CHSEL		25
+#define S4CR_CHSEL0		25
+#define S4CR_CHSEL1		26
+#define S4CR_CHSEL2		27
+
+#define S5CR_EN			0
+#define S5CR_DMEIE		1
+#define S5CR_TEIE		2
+#define S5CR_HTIE		3
+#define S5CR_TCIE		4
+#define S5CR_PFCTRL		5
+#define S5CR_DIR		6
+#define S5CR_DIR0		6
+#define S5CR_DIR1		7
+#define S5CR_CIRC		8
+#define S5CR_PINC		9
+#define S5CR_MINC		10
+#define S5CR_PSIZE		11
+#define S5CR_PSIZE0		11
+#define S5CR_PSIZE1		12
+#define S5CR_MSIZE		13
+#define S5CR_MSIZE0		13
+#define S5CR_MSIZE1		14
+#define S5CR_PINCOS		15
+#define S5CR_PL			16
+#define S5CR_PL0		16
+#define S5CR_PL1		17
+#define S5CR_DBM		18
+#define S5CR_CT			19
+#define S5CR_PBURST		21
+#define S5CR_PBURST0	21
+#define S5CR_PBURST1	22
+#define S5CR_MBURST		23
+#define S5CR_MBURST0	23
+#define S5CR_MBURST1	24
+#define S5CR_CHSEL		25
+#define S5CR_CHSEL0		25
+#define S5CR_CHSEL1		26
+#define S5CR_CHSEL2		27
+
+#define S6CR_EN			0
+#define S6CR_DMEIE		1
+#define S6CR_TEIE		2
+#define S6CR_HTIE		3
+#define S6CR_TCIE		4
+#define S6CR_PFCTRL		5
+#define S6CR_DIR		6
+#define S6CR_DIR0		6
+#define S6CR_DIR1		7
+#define S6CR_CIRC		8
+#define S6CR_PINC		9
+#define S6CR_MINC		10
+#define S6CR_PSIZE		11
+#define S6CR_PSIZE0		11
+#define S6CR_PSIZE1		12
+#define S6CR_MSIZE		13
+#define S6CR_MSIZE0		13
+#define S6CR_MSIZE1		14
+#define S6CR_PINCOS		15
+#define S6CR_PL			16
+#define S6CR_PL0		16
+#define S6CR_PL1		17
+#define S6CR_DBM		18
+#define S6CR_CT			19
+#define S6CR_PBURST		21
+#define S6CR_PBURST0	21
+#define S6CR_PBURST1	22
+#define S6CR_MBURST		23
+#define S6CR_MBURST0	23
+#define S6CR_MBURST1	24
+#define S6CR_CHSEL		25
+#define S6CR_CHSEL0		25
+#define S6CR_CHSEL1		26
+#define S6CR_CHSEL2		27
+
+#define S7CR_EN			0
+#define S7CR_DMEIE		1
+#define S7CR_TEIE		2
+#define S7CR_HTIE		3
+#define S7CR_TCIE		4
+#define S7CR_PFCTRL		5
+#define S7CR_DIR		6
+#define S7CR_DIR0		6
+#define S7CR_DIR1		7
+#define S7CR_CIRC		8
+#define S7CR_PINC		9
+#define S7CR_MINC		10
+#define S7CR_PSIZE		11
+#define S7CR_PSIZE0		11
+#define S7CR_PSIZE1		12
+#define S7CR_MSIZE		13
+#define S7CR_MSIZE0		13
+#define S7CR_MSIZE1		14
+#define S7CR_PINCOS		15
+#define S7CR_PL			16
+#define S7CR_PL0		16
+#define S7CR_PL1		17
+#define S7CR_DBM		18
+#define S7CR_CT			19
+#define S7CR_PBURST		21
+#define S7CR_PBURST0	21
+#define S7CR_PBURST1	22
+#define S7CR_MBURST		23
+#define S7CR_MBURST0	23
+#define S7CR_MBURST1	24
+#define S7CR_CHSEL		25
+#define S7CR_CHSEL0		25
+#define S7CR_CHSEL1		26
+#define S7CR_CHSEL2		27
+
+#define S0NDTR_NDT		0
+#define S0NDTR_NDT0		0
+#define S0NDTR_NDT1		1
+#define S0NDTR_NDT2		2
+#define S0NDTR_NDT3		3
+#define S0NDTR_NDT4		4
+#define S0NDTR_NDT5		5
+#define S0NDTR_NDT6		6
+#define S0NDTR_NDT7		7
+#define S0NDTR_NDT8		8
+#define S0NDTR_NDT9		9
+#define S0NDTR_NDT10	10
+#define S0NDTR_NDT11	11
+#define S0NDTR_NDT12	12
+#define S0NDTR_NDT13	13
+#define S0NDTR_NDT14	14
+#define S0NDTR_NDT15	15
+
+#define S1NDTR_NDT		0
+#define S1NDTR_NDT0		0
+#define S1NDTR_NDT1		1
+#define S1NDTR_NDT2		2
+#define S1NDTR_NDT3		3
+#define S1NDTR_NDT4		4
+#define S1NDTR_NDT5		5
+#define S1NDTR_NDT6		6
+#define S1NDTR_NDT7		7
+#define S1NDTR_NDT8		8
+#define S1NDTR_NDT9		9
+#define S1NDTR_NDT10	10
+#define S1NDTR_NDT11	11
+#define S1NDTR_NDT12	12
+#define S1NDTR_NDT13	13
+#define S1NDTR_NDT14	14
+#define S1NDTR_NDT15	15
+
+#define S2NDTR_NDT		0
+#define S2NDTR_NDT0		0
+#define S2NDTR_NDT1		1
+#define S2NDTR_NDT2		2
+#define S2NDTR_NDT3		3
+#define S2NDTR_NDT4		4
+#define S2NDTR_NDT5		5
+#define S2NDTR_NDT6		6
+#define S2NDTR_NDT7		7
+#define S2NDTR_NDT8		8
+#define S2NDTR_NDT9		9
+#define S2NDTR_NDT10	10
+#define S2NDTR_NDT11	11
+#define S2NDTR_NDT12	12
+#define S2NDTR_NDT13	13
+#define S2NDTR_NDT14	14
+#define S2NDTR_NDT15	15
+
+#define S3NDTR_NDT		0
+#define S3NDTR_NDT0		0
+#define S3NDTR_NDT1		1
+#define S3NDTR_NDT2		2
+#define S3NDTR_NDT3		3
+#define S3NDTR_NDT4		4
+#define S3NDTR_NDT5		5
+#define S3NDTR_NDT6		6
+#define S3NDTR_NDT7		7
+#define S3NDTR_NDT8		8
+#define S3NDTR_NDT9		9
+#define S3NDTR_NDT10	10
+#define S3NDTR_NDT11	11
+#define S3NDTR_NDT12	12
+#define S3NDTR_NDT13	13
+#define S3NDTR_NDT14	14
+#define S3NDTR_NDT15	15
+
+#define S4NDTR_NDT		0
+#define S4NDTR_NDT0		0
+#define S4NDTR_NDT1		1
+#define S4NDTR_NDT2		2
+#define S4NDTR_NDT3		3
+#define S4NDTR_NDT4		4
+#define S4NDTR_NDT5		5
+#define S4NDTR_NDT6		6
+#define S4NDTR_NDT7		7
+#define S4NDTR_NDT8		8
+#define S4NDTR_NDT9		9
+#define S4NDTR_NDT10	10
+#define S4NDTR_NDT11	11
+#define S4NDTR_NDT12	12
+#define S4NDTR_NDT13	13
+#define S4NDTR_NDT14	14
+#define S4NDTR_NDT15	15
+
+#define S5NDTR_NDT		0
+#define S5NDTR_NDT0		0
+#define S5NDTR_NDT1		1
+#define S5NDTR_NDT2		2
+#define S5NDTR_NDT3		3
+#define S5NDTR_NDT4		4
+#define S5NDTR_NDT5		5
+#define S5NDTR_NDT6		6
+#define S5NDTR_NDT7		7
+#define S5NDTR_NDT8		8
+#define S5NDTR_NDT9		9
+#define S5NDTR_NDT10	10
+#define S5NDTR_NDT11	11
+#define S5NDTR_NDT12	12
+#define S5NDTR_NDT13	13
+#define S5NDTR_NDT14	14
+#define S5NDTR_NDT15	15
+
+#define S6NDTR_NDT		0
+#define S6NDTR_NDT0		0
+#define S6NDTR_NDT1		1
+#define S6NDTR_NDT2		2
+#define S6NDTR_NDT3		3
+#define S6NDTR_NDT4		4
+#define S6NDTR_NDT5		5
+#define S6NDTR_NDT6		6
+#define S6NDTR_NDT7		7
+#define S6NDTR_NDT8		8
+#define S6NDTR_NDT9		9
+#define S6NDTR_NDT10	10
+#define S6NDTR_NDT11	11
+#define S6NDTR_NDT12	12
+#define S6NDTR_NDT13	13
+#define S6NDTR_NDT14	14
+#define S6NDTR_NDT15	15
+
+#define S7NDTR_NDT		0
+#define S7NDTR_NDT0		0
+#define S7NDTR_NDT1		1
+#define S7NDTR_NDT2		2
+#define S7NDTR_NDT3		3
+#define S7NDTR_NDT4		4
+#define S7NDTR_NDT5		5
+#define S7NDTR_NDT6		6
+#define S7NDTR_NDT7		7
+#define S7NDTR_NDT8		8
+#define S7NDTR_NDT9		9
+#define S7NDTR_NDT10	10
+#define S7NDTR_NDT11	11
+#define S7NDTR_NDT12	12
+#define S7NDTR_NDT13	13
+#define S7NDTR_NDT14	14
+#define S7NDTR_NDT15	15
+
+#define S0PAR_PAR		0
+#define S1PAR_PAR		0
+#define S2PAR_PAR		0
+#define S3PAR_PAR		0
+#define S4PAR_PAR		0
+#define S5PAR_PAR		0
+#define S6PAR_PAR		0
+#define S7PAR_PAR		0
+
+#define S0M0AR_M0A		0
+#define S1M0AR_M0A		0
+#define S2M0AR_M0A		0
+#define S3M0AR_M0A		0
+#define S4M0AR_M0A		0
+#define S5M0AR_M0A		0
+#define S6M0AR_M0A		0
+#define S7M0AR_M0A		0
+
+#define S0M1AR_M1A		0
+#define S1M1AR_M1A		0
+#define S2M1AR_M1A		0
+#define S3M1AR_M1A		0
+#define S4M1AR_M1A		0
+#define S5M1AR_M1A		0
+#define S6M1AR_M1A		0
+#define S7M1AR_M1A		0
+
+#define SXFCR_FTH		0
+#define SXFCR_FTH0		0
+#define SXFCR_FTH1		1
+#define SXFCR_DMDIS		2
+#define SXFCR_FS		3
+#define SXFCR_FS0		3
+#define SXFCR_FS1		4
+#define SXFCR_FS2		5
+#define SXFCR_FEIE		7
+
+#define S0FCR_FTH		0
+#define S0FCR_FTH0		0
+#define S0FCR_FTH1		1
+#define S0FCR_DMDIS		2
+#define S0FCR_FS		3
+#define S0FCR_FS0		3
+#define S0FCR_FS1		4
+#define S0FCR_FS2		5
+#define S0FCR_FEIE		7
+
+#define S1FCR_FTH		0
+#define S1FCR_FTH0      0
+#define S1FCR_FTH1      1
+#define S1FCR_DMDIS     2
+#define S1FCR_FS        3
+#define S1FCR_FS0       3
+#define S1FCR_FS1       4
+#define S1FCR_FS2       5
+#define S1FCR_FEIE      7
+
+#define S2FCR_FTH       0
+#define S2FCR_FTH0      0
+#define S2FCR_FTH1      1
+#define S2FCR_DMDIS     2
+#define S2FCR_FS        3
+#define S2FCR_FS0       3
+#define S2FCR_FS1       4
+#define S2FCR_FS2       5
+#define S2FCR_FEIE      7
+
+#define S3FCR_FTH       0
+#define S3FCR_FTH0      0
+#define S3FCR_FTH1      1
+#define S3FCR_DMDIS     2
+#define S3FCR_FS        3
+#define S3FCR_FS0       3
+#define S3FCR_FS1       4
+#define S3FCR_FS2       5
+#define S3FCR_FEIE      7
+
+#define S4FCR_FTH       0
+#define S4FCR_FTH0      0
+#define S4FCR_FTH1      1
+#define S4FCR_DMDIS     2
+#define S4FCR_FS        3
+#define S4FCR_FS0       3
+#define S4FCR_FS1       4
+#define S4FCR_FS2       5
+#define S4FCR_FEIE      7
+
+#define S5FCR_FTH       0
+#define S5FCR_FTH0      0
+#define S5FCR_FTH1      1
+#define S5FCR_DMDIS     2
+#define S5FCR_FS        3
+#define S5FCR_FS0       3
+#define S5FCR_FS1       4
+#define S5FCR_FS2       5
+#define S5FCR_FEIE      7
+
+#define S6FCR_FTH       0
+#define S6FCR_FTH0      0
+#define S6FCR_FTH1      1
+#define S6FCR_DMDIS     2
+#define S6FCR_FS        3
+#define S6FCR_FS0       3
+#define S6FCR_FS1       4
+#define S6FCR_FS2       5
+#define S6FCR_FEIE      7
+
+#define S7FCR_FTH       0
+#define S7FCR_FTH0      0
+#define S7FCR_FTH1      1
+#define S7FCR_DMDIS     2
+#define S7FCR_FS        3
+#define S7FCR_FS0       3
+#define S7FCR_FS1       4
+#define S7FCR_FS2       5
+#define S7FCR_FEIE      7
+
+
+#endif
