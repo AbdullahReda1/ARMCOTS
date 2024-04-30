@@ -11,6 +11,7 @@
  * v1.0         30 MAY, 2023      Abdullah R.Hebashi            Initial Creation 
 *********************************************************************************/
 
+
 #ifndef HAL_TFT_TFT_CONFIG_H_
 #define HAL_TFT_TFT_CONFIG_H_
 
@@ -20,7 +21,7 @@
     MGPIO_PORTB
     MGPIO_PORTC
 */
-#define     HTFT_RESET_PORT      MGPIO_PORTA
+#define HTFT_RESET_PORT         MGPIO_PORTA
 
 /*
     OPTIONS:
@@ -41,7 +42,7 @@
     PIN14
     PIN15
 */
-#define     HTFT_RESET_PIN       PIN1
+#define HTFT_RESET_PIN          PIN1
 
 
 /*
@@ -50,7 +51,7 @@
     MGPIO_PORTB
     MGPIO_PORTC
 */
-#define     HTFT_A0_PORT         MGPIO_PORTA
+#define HTFT_A0_PORT            MGPIO_PORTA
 
 /*
     OPTIONS:
@@ -71,7 +72,7 @@
     PIN14
     PIN15
 */
-#define     HTFT_A0_PIN          PIN0
+#define HTFT_A0_PIN             PIN0
 
 
 #endif
